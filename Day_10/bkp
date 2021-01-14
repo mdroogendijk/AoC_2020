@@ -1,0 +1,44 @@
+def part2(lines):
+
+    jolts_range = range(1, 4)
+    jolts = 0
+    ways = 0
+
+    lines.sort()
+    lines_dict = {line: [(line + 1), (line + 2), (line + 3)] for line in lines}
+
+    print(lines_dict)
+    # dependencyDict = {'A': ['D'], 'B': ['A', 'E'], 'C': ['B'], 'D': ['C'], 'G': ['H']}
+    chains_dict = {}
+
+    for key in lines_dict:
+        if key <= 3:
+            # currKey = key
+            frontier = [key]
+            visited = []
+            while frontier:
+                curr_key = frontier[0]
+                print(frontier, curr_key)
+                frontier.remove(curr_key)
+                if lines_dict.get(curr_key, 0) and (curr_key not in visited) and (curr_key in lines_dict):
+                    nodes = lines_dict[curr_key]
+                    print(frontier, nodes)
+                    frontier.extend(nodes)
+                    visited.append(curr_key)
+                elif curr_key in visited:
+                    visited.remove(curr_key)
+                elif lines_dict.get(curr_key, 0) == 0:
+                    visited.append(curr_key)
+            for i in visited:
+                if i == key:
+                    visited.remove(i)
+            chains_dict[key] = visited
+
+    print(chains_dict)
+
+#    while jolts < max(lines):
+#        for i in jolts_range:
+#            if (jolts + i) in lines:
+#                jolts += i
+
+    return ways
